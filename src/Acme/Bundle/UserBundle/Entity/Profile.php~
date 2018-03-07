@@ -1,0 +1,43 @@
+<?php
+
+namespace Acme\Bundle\UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Acme\Bundle\UserBundle\Entity\User;
+//use Symfony\Component\Security\Core\User\UserInterface;
+//use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+
+/**
+ * Class Profile
+ * @package Acme\Bundle\UserBundle\Entity
+ * @ORM\Table(name="profile")
+ * @ORM\Entity
+ */
+class Profile
+{
+    /**
+	 * @ORM\Id
+     * @ORM\Column(type="integer")
+     */
+	 private $user_id;
+	 /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $first_name;
+	 /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $avatar;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $second_name;
+
+    /**
+    * @ORM\Column(type="date")
+    */
+    private $birthday;
+
+	 //private $user;
+}

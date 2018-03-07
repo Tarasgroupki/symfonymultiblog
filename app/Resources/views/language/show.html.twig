@@ -1,0 +1,36 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+    <h1>Language</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Lang_id</th>
+                <td>{{ language.lang_id }}</td>
+            </tr>
+            <tr>
+                <th>Lang_name</th>
+                <td>{{ language.langname }}</td>
+            </tr>
+            <tr>
+                <th>Created</th>
+                <td>{% if language.created %}{{ language.created|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('language_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('language_edit', { 'lang_id': language.lang_id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

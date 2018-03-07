@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Blog</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ blog.productId }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ blog.title }}</td>
+            </tr>
+            <tr>
+                <th>Body</th>
+                <td>{{ blog.body }}</td>
+            </tr>
+        </tbody>
+    </table>
+	{% if app.user %}
+	{{ form(form) }}
+	{% endif %}
+	<table>
+	<thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Body</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+		<tbody>
+	    {% for comment in comments %}
+            <tr data-id = {{ comment.id }} class="values">
+                <td>{{ comment.username }}</td>
+                <td>{{ comment.title }}</td>
+                <td>{{ comment.text }}</td>
+            </tr>
+			
+			<tr class="field">
+			<td>
+			<form data-key={{ comment.id }} action="{{ path('update',{'id':comment.id}) }}" method="post">
+                {{ comment.username }}
+				<br />
+				<input type="hidden" name="username" value="{{ comment.username }}" />
+                <br />
+				<input type="text" name="title" value="{{ comment.title }}" />
+                <br />
+				<textarea name="text">{{ comment.text }}</textarea>				
+			    <br />
+				<a href="{{ path('blog_edit', { 'id': blog.id }) }}"><input type="submit" name="submit" value="Post comment" /></a>
+			<input data-value={{ comment.id }} class="cancel" type="button" name="cancel" value="Cancel" />
+			</form>
+			
+			</td>
+			</tr>
+			
+			<td>
+			{% if app.user %}
+                    <ul>
+                        <li data-value={{ comment.id }} class="edit" value='{{ comment.id }}'>
+                           edit
+                        </li>
+						<li>
+                            <a href="{{ path('delete', { 'id': comment.id }) }}">delete</a>
+                        </li>
+                    </ul>{% endif %}
+                </td>
+				<form>
+				
+				</form>
+        {% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

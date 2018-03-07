@@ -1,0 +1,43 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+    <h1>Roles_items list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Item_name</th>
+                <th>Description</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for roles_Item in roles_Items %}
+            <tr>
+                <td><a href="{{ path('roles_item_show', { 'id': roles_Item.id }) }}">{{ roles_Item.id }}</a></td>
+                <td>{{ roles_Item.itemname }}</td>
+                <td>{{ roles_Item.description }}</td>
+                <td>{% if roles_Item.created %}{{ roles_Item.created|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('roles_item_show', { 'id': roles_Item.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('roles_item_edit', { 'id': roles_Item.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('roles_item_new') }}">Create a new roles_Item</a>
+        </li>
+    </ul>
+{% endblock %}

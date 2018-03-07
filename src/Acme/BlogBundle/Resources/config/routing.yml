@@ -1,0 +1,32 @@
+index:
+    path:     /
+    defaults: { _controller: BlogBundle:Default:index }
+cat_index:
+    path:     /{id}/{slug}
+    defaults: {_controller: BlogBundle:Default:index}
+    requirements: {'id': '\d+','slug': '[\w\-]+'}
+hello:
+    path:     /default/hello
+    defaults: { _controller: BlogBundle:Default:hello }
+number:
+    path:     /default/number/{id}
+    defaults: { _controller: BlogBundle:Default:number }
+    requirements:  {'id': '\d+'}
+create:
+    path:     /default/create
+    defaults: { _controller: BlogBundle:Default:create }
+default_show:
+    path:     /default/{id}/{slug}
+    defaults: { _controller: BlogBundle:Default:show }
+    requirements:  {'id': '\d+','slug': '[\w\-]+'}
+delete:
+    path:     /delete/{id}
+    defaults: { _controller: BlogBundle:Default:delete }
+    requirements:  {'id': '\d+'}
+update:
+    path:     /update/{id}
+    defaults: { _controller: BlogBundle:Default:update }
+    requirements:  {'id': '\d+'}
+blog_authorize:
+    path:     /authorize/
+    defaults: { _controller: BlogBundle:Default:authorize }

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+          <link href="{{ asset('css/site.css') }}" rel="stylesheet" />
+		  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+		  <script src="{{ asset('js/profile.js') }}"></script>
+		  <link rel="stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		  <link rel="stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/bootflat/2.0.4/css/bootflat.min.css">
+		   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.0/css/bootstrap-datepicker.css">
+		    <script src="{{ asset('js/comment.js') }}"></script>
+			<script>
+        jQuery(document).ready(function() {
+            $('.js-datepicker').datepicker();
+        });
+    </script>
+		{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+	<div class="wrap">
+	<div class="header">
+	<ul>
+	    <li><a href="{{ path('index') }}">{{ 'translate.link1'|trans }}</a></li>
+	    <li><a href="{{ path('hello') }}">{{ 'translate.link2'|trans }}</a></li> 
+		<li><a href="{{ path('number', { 'id': 1 }) }}">{{ 'translate.link3'|trans }}</a></li>
+	</ul>
+	<div>
+	{% for lang in languages %}
+	    <a href="{{ path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')|merge({ '_locale': lang.locale })) }}">{{lang.langSymbol}}</a>
+	{% endfor %}</div>
+	<div align="right">
+	{% if app.user %}
+                <button class="btn btn-sm btn-default"
+                        data-container="body"
+                        data-toggle="popover"
+                        data-trigger="focus"
+                        data-placement="bottom"
+                        data-title='{{ app.user.username }}'
+                        data-content="
+                            <a href='{{ path('acme_user_profile') }}' >{{ 'translate.profile'|trans }}</a><br>
+                            <a href='{{ path('acme_user_logout') }}' data-method=post>{{ 'translate.out'|trans }}</a>
+                        ">
+						{% if avatar %}
+						<img style="width:20px; height:20px;" src="{{ avatar }}">   
+                {% else %}
+				<span class="glyphicon glyphicon-user"></span>
+				{% endif %}
+				</button>
+	{% else %}
+	<a href="{{ path('acme_user_login') }}">{{ 'translate.login'|trans }}</a>
+	<br />
+	<a href="{{ path('acme_user_registration') }}">{{ 'translate.register'|trans }}</a>
+	{% endif %}
+	</div>
+	</div>
+	<div class="container">
+        {% block body %}{% endblock %}
+	</div>
+	</div>
+        {% block javascripts %}{% endblock %}
+    <footer class="footer">
+    <div class="container">
+        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+    </div>
+</footer>
+	</body>
+</html>

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Categories</h1>
+	
+	<table>
+        <tbody><tr><ul>
+        {% for key, category in categories %} 
+		<li>	
+                <a href="{{ path('cat_index', { 'id': category.categoryId ,'slug': category.slug}) }}">{{ category.catname }}</a> 
+		</li>
+		{% endfor %}</ul>
+			</tr>
+        </tbody>
+    </table>
+    <h1>Blogs list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Body</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for blog in blogs %}
+            <tr>
+                <td><a href="{{ path('default_show', { 'id': blog.id ,'slug': blog.slug}) }}">{{ blog.productId }}</a></td>
+                <td>{{ blog.title }}</td>
+                <td>{{ blog.body }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

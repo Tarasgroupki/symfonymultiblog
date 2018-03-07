@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="acme_user_homepage" path="index">
+        <default key="_controller">AcmeUserBundle:Default:index</default>
+    </route>
+    <route id="acme_user_registration" path="register">
+        <default key="_controller">AcmeUserBundle:Default:register</default>
+    </route>
+    <route id="acme_user_login" path="login">
+        <default key="_controller">AcmeUserBundle:Default:login</default>
+    </route>
+	<route id="acme_user_logout" path="logout">
+        <default key="_controller">AcmeUserBundle:Default:logout</default>
+    </route>
+	<route id="acme_user_profile" path="profile">
+        <default key="_controller">AcmeUserBundle:Default:profile</default>
+    </route>
+    <route id="acme_user_addroles" path="/AddRoles/{id}">
+        <default key="_controller">AcmeUserBundle:Default:AddRoles</default>
+    </route>
+</routes>

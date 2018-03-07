@@ -1,0 +1,37 @@
+<?php
+
+namespace Acme\Bundle\UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Acme\Bundle\UserBundle\Entity\User;
+use Symfony\Component\Validator\Constraints as Assert;
+//use Symfony\Component\Security\Core\User\UserInterface;
+//use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+
+/**
+ * Class Roles_Item
+ * @package Acme\Bundle\UserBundle\Entity
+ * @ORM\Table(name="roles_item")
+ * @ORM\Entity
+ */
+class Roles_Item
+{
+/**
+ *@ORM\Column(type="integer")
+ *@ORM\Id
+ *@ORM\GeneratedValue(strategy="AUTO")
+*/ 
+	private $id;
+	 /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $item_name;
+	 /**
+     * @ORM\Column(type="text",name="description")
+     */
+	private $description;
+	/**
+    * @ORM\Column(type="date")
+    */
+    private $created;
+}

@@ -1,0 +1,45 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+    <h1>Categories list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Cat_id</th>
+                <th>Cat_name</th>
+                <th>Locale</th>
+                <th>Description_cat</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for category in categories %}
+            <tr>
+                <td><a href="{{ path('admin_category_show', { 'cat_id': category.cat_id }) }}">{{ category.cat_id }}</a></td>
+                <td>{{ category.catname }}</td>
+                <td>{{ category.locale }}</td>
+                <td>{{ category.descriptioncat }}</td>
+                <td>{% if category.created %}{{ category.created|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_category_show', { 'cat_id': category.cat_id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_category_edit', { 'cat_id': category.cat_id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_category_new') }}">Create a new category</a>
+        </li>
+    </ul>
+{% endblock %}

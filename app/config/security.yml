@@ -1,0 +1,51 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+    encoders:
+        Acme\Bundle\UserBundle\Entity\User:
+            algorithm: bcrypt
+
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        db_provider:
+            entity:
+                class: AcmeUserBundle:User
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+           pattern:    ^/
+           #http_basic: ~
+           provider: db_provider
+           anonymous: ~
+           form_login:
+                 login_path: acme_user_login
+                 check_path: acme_user_login
+                 default_target_path: blog_authorize
+                 always_use_default_target_path: true
+           logout:
+            path: acme_user_logout
+            #target: /
+
+    access_control:
+        #
+        - { path: ^/user/register, roles: !ROLE_USER }
+        - { path: ^/user/login, roles: !ROLE_USER }
+        - { path: ^/admin/blog/index, roles: ROLE_ADMIN }
+        - { path: ^/admin/blog/new, roles: ROLE_ADMIN }
+        - { path: ^/edit, roles: ROLE_ADMIN }
+        - { path: ^/admin/language/index, roles: ROLE_ADMIN }
+        - { path: ^/admin/language/new, roles: ROLE_ADMIN }
+        - { path: ^/admin/category/index, roles: ROLE_ADMIN }
+        - { path: ^/admin/category/new, roles: ROLE_ADMIN }
+          # activate different ways to authenticate
+
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            #http_basic: ~
+
+            # https://symfony.com/doc/current/security/form_login_setup.html
+            #form_login: ~

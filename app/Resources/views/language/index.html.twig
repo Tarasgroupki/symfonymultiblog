@@ -1,0 +1,41 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+    <h1>Languages list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Lang_id</th>
+                <th>Lang_name</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for language in languages %}
+            <tr>
+                <td><a href="{{ path('language_show', { 'lang_id': language.lang_id }) }}">{{ language.lang_id }}</a></td>
+                <td>{{ language.langname }}</td>
+                <td>{% if language.created %}{{ language.created|date('Y-m-d') }}{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('language_show', { 'lang_id': language.lang_id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('language_edit', { 'lang_id': language.lang_id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('language_new') }}">Create a new language</a>
+        </li>
+    </ul>
+{% endblock %}

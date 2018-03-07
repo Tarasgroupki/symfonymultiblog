@@ -1,0 +1,6 @@
+services:
+    file_manager:
+          class: Acme\Bundle\UserBundle\Core\FileManager
+    getLanguagesWidget:
+          class:     Acme\Bundle\UserBundle\Service\GetLanguagesWidget
+          arguments: ["@service_container"]

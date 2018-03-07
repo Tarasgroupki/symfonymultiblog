@@ -1,0 +1,43 @@
+acme_user_roles.item:
+    resource: "@AcmeUserBundle/Controller/Roles_ItemController.php"
+    type:     annotation
+
+acme_user_roles:
+    resource: "@AcmeUserBundle/Controller/RolesController.php"
+    type:     annotation
+    prefix:   /admin/
+
+blog_category:
+    resource: "@BlogBundle/Controller/CategoryController.php"
+    type:     annotation
+
+acme_user:
+    resource: "@AcmeUserBundle/Resources/config/routing.xml"
+    prefix:   /{_locale}/user/
+    requirements:
+      _locale: \w+
+
+blog_language:
+    resource: "@BlogBundle/Controller/LanguageController.php"
+    type:     annotation
+    prefix:  /admin/
+
+blog_blog:
+    resource: "@BlogBundle/Controller/BlogController.php"
+    type:     annotation
+    prefix:  /admin/
+
+acme_blog_bundle_blog:
+    resource: "@AcmeBlogBundleBlogBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+blog:
+    resource: "@BlogBundle/Resources/config/routing.yml"
+    prefix:   /{_locale}/
+    requirements:
+      _locale: \w+
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation

@@ -1,0 +1,20 @@
+{% extends "::admin.html.twig"%}
+
+{% block title %}Acme\Bundle\UserBundle:login{% endblock %}
+
+{% block body %}
+<h1>Add Users</h1>
+{% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('acme_user_addroles', { 'id': user.id }) }}">Add Roles</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+{% endblock %}

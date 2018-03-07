@@ -1,0 +1,40 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+    <h1>Roles_item</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ roles_Item.id }}</td>
+            </tr>
+            <tr>
+                <th>Item_name</th>
+                <td>{{ roles_Item.itemname }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ roles_Item.description }}</td>
+            </tr>
+            <tr>
+                <th>Created</th>
+                <td>{% if roles_Item.created %}{{ roles_Item.created|date('Y-m-d') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('roles_item_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('roles_item_edit', { 'id': roles_Item.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

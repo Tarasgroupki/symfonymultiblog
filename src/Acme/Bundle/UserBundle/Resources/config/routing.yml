@@ -1,0 +1,6 @@
+user_index:
+    path:     /
+    defaults: { _controller: AcmeUserBundle:Default:index }
+user_registration:
+    path:     /register
+    defaults: { _controller: AcmeUserBundle:Default:register }

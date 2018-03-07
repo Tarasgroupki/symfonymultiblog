@@ -1,0 +1,116 @@
+<?php
+namespace Acme\Bundle\UserBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Acme\BlogBundle\Entity\Comment;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+
+/**
+ * Class User
+ * @package Acme\Bundle\UserBundle\Entity
+ * @ORM\Table(name="user")
+ * @ORM\Entity(repositoryClass="Acme\Bundle\UserBundle\Repository\UserRepository")
+ */
+class User implements UserInterface
+{
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="string", length=25, unique=true)
+     */
+    private $username;
+
+    /**
+     * @ORM\Column(type="string", length=64)
+     */
+    private $password;
+
+    /**
+     * @ORM\Column(type="string", length=60, unique=true)
+     */
+    private $email;
+
+	private $plainPassword;
+    /**
+     * @ORM\Column(name="is_active", type="boolean")
+     */
+    private $isActive;
+	
+	//private $profile;
+   /**
+    * @ORM\OneToMany(targetEntity="Acme\BlogBundle\Entity\Comment", mappedBy="user") 
+    */
+	protected $comments;
+	
+    public function __construct()
+    {
+        $this->isActive = true;
+		$this->comments = new ArrayCollection();
+        // may not be needed, see section on salt below
+        // $this->salt = md5(uniqid('', true));
+    }
+
+	public function getId()
+	{
+		return $this->id;
+	}
+	
+    public function getUsername()
+    {
+        return $this->username;
+    }
+	public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+	 public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
+    }
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        // see section on salt below
+        return null;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+	public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function eraseCredentials()
+    {
+		$this->password = null;
+    }
+}

@@ -1,0 +1,13 @@
+index:
+    path: /
+    defaults: { _controller: BlogBundle:Default:index }
+hello:
+    path:     /default/hello
+    defaults: { _controller: BlogBundle:Default:hello }	
+number:
+    path:     /default/number/{id}
+    defaults: { _controller: BlogBundle:Default:number }
+    requirements:
+id: \d+
+
+
