@@ -3,6 +3,10 @@
 {% block body %}
     <h1>Blog</h1>
 
+{% for key, image in images %}
+    <img style="width:450px;height:250px;" src="{{ image.imgUrl }}" alt="no image"/>
+{% endfor %}
+
     <table>
         <tbody>
             <tr>

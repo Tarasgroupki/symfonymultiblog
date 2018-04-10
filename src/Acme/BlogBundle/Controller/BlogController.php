@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 //use Acme\BlogBundle\TransliteratorTrait;
 
 /**
@@ -67,8 +69,14 @@ class BlogController extends Controller
 			$slug = $this->transliterate($qu->getTitle());
 			$query = $qb->insert('blog',array('id' => '','product_id' => $product_id[1] + 1,'category_id' => $category_id,'locale' => $qu->getLocale(),'title' => $qu->getTitle(),'body' => $qu->getBody(),'slug' => $slug,'created' => '0000-00-00'));	
 			}
-			
-            return $this->redirectToRoute('blog_show', array('id' => 3));
+            $fs = new Filesystem();
+$product_id = $product_id[1] + 1;
+            try {
+                $fs->mkdir('X:home/symfony.ua/www/symfony/web/images/Gallery'.$product_id);
+            } catch (IOExceptionInterface $e) {
+                echo "An error occurred while creating your directory at ".$e->getPath();
+            }
+            return $this->redirectToRoute('blog_show', array('id' => $product_id));
         }
 
         return $this->render('blog/new.html.twig', array(

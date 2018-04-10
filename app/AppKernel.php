@@ -21,6 +21,7 @@ class AppKernel extends Kernel
             new Acme\BlogBundle\BlogBundle\AcmeBlogBundleBlogBundle(),
 			//new Ornicar\ApcBundle\OrnicarApcBundle(),
             new Acme\Bundle\UserBundle\AcmeUserBundle(),
+            new Acme\Bundle\ImageGalleryBundle\AcmeImageGalleryBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

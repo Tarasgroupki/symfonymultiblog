@@ -18,6 +18,7 @@ security:
             security: false
 
         main:
+
            pattern:    ^/
            #http_basic: ~
            provider: db_provider
@@ -30,7 +31,10 @@ security:
            logout:
             path: acme_user_logout
             #target: /
-
+           remember_me:
+              secret: '%secret%'
+              lifetime: 604800
+              path: /
     access_control:
         #
         - { path: ^/user/register, roles: !ROLE_USER }

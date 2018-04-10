@@ -16,6 +16,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Core\Authentication\Token\RememberMeToken;
 
 class DefaultController extends Controller
 {
@@ -23,6 +25,12 @@ class DefaultController extends Controller
     {
 		$locale = $request->getLocale();
 		$em = $this->getDoctrine()->getManager();
+		$images = $em->getRepository('AcmeImageGalleryBundle:Main_Img')->findAll();
+		//var_dump($images[0]->getImages()->getImgUrl());die;
+		foreach($images as $key => $image):
+            $img[$image->getProductId()] = $image->getImages()->getImgUrl();
+        endforeach;
+      // print_r($img);die;
         $categories = $em->getRepository('BlogBundle:Category')->findByLocale($locale);
 		//$menuItems = $this->getMenuItems($categories);
 		//echo '<pre>'.print_r($menuItems,true).'</pre>';die;	
@@ -43,7 +51,7 @@ class DefaultController extends Controller
 			endif;
 			endforeach;
 		}
-		return $this->render('BlogBundle:Default:index.html.twig',array('blogs' => $blogs,'languages' => $languages,'categories' => $categories,'avatar' => $avatar)
+		return $this->render('BlogBundle:Default:index.html.twig',array('blogs' => $blogs,'languages' => $languages,'categories' => $categories,'avatar' => $avatar,'images' => $img)
 		);
     }
 	public function numberAction($id)
@@ -73,11 +81,15 @@ class DefaultController extends Controller
 		$this->getUser()->setRoles($roles);
 		$user = $this->getUser();
 		$token = new UsernamePasswordToken($user, $user->getPassword(), 'main', $user->getRoles());
+        $key = $this->getParameter('secret'); // your security key from parameters.yml
 
+        $token = new RememberMeToken($user, 'main', $key);
 		$this->get('security.token_storage')->setToken($token);
+      //  $this->get('security.authorization_checker')->setToken($token);
 	   // If the firewall name is not main, then the set value would be instead:
         // $this->get('session')->set('_security_XXXFIREWALLNAMEXXX', serialize($token));
         $this->get('session')->set('_security_main', serialize($token));
+
         // Fire the login event manually
         $event = new InteractiveLoginEvent($request, $token);
         //print_r($event);die;
@@ -91,6 +103,8 @@ class DefaultController extends Controller
 		$id = $blog->getProductId();
 		$locale = $request->getLocale();
 		$em = $this->getDoctrine()->getManager();
+		$images = $em->getRepository('AcmeImageGalleryBundle:Images')->findByProductId($id);
+		//print_r($images);die;
         $languages = $this->get('my_widget')->getLanguages();
 		$avatar = $this->get('my_widget')->getProfile();
 		$comment = new Comment();
@@ -112,6 +126,7 @@ class DefaultController extends Controller
 		return $this->render('BlogBundle:Default:show.html.twig', array(
             'languages' => $languages,
 			'blog' => $blog,
+			'images' => $images,
 			'avatar' => $avatar,
 			'comments' => (isset($comments)) ? $comments : null,
             'form' => $form->createView(),
