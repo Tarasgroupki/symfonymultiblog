@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        <link href="{{ asset('css/site.css') }}" rel="stylesheet" />
+        <link rel="stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href = "https://cdnjs.cloudflare.com/ajax/libs/bootflat/2.0.4/css/bootflat.min.css">
+        <link href="{{ asset('css/gallery.css') }}" rel="stylesheet" />
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+<div class="wrap">
+    <div class="header">
+        <ul>
+            <li><a href="{{ path('acme_user_homepage') }}">{{ 'Users' }}</a></li>
+            <li><a href="{{ path('blog_index') }}">{{ 'translate.adminLink1'|trans }}</a></li>
+            <li><a href="{{ path('language_index') }}">{{ 'translate.adminLink2'|trans }}</a></li>
+            <li><a href="{{ path('admin_category_index') }}">{{ 'Categories' }}</a></li>
+            <li><a href="{{ path('roles_item_index') }}">{{ 'Roles' }}</a></li>
+        </ul>
+    </div>
+    <div class="container">
+        {% block body %}{% endblock %}
+    </div>
+    {% block javascripts %}
+        <script src="http://code.jquery.com/jquery-2.2.3.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.5/vue.min.js"></script>
+        <script>
+            var things = {{ js_array|raw }};
+           $('#delete').click(function(){
+               $('form#main').attr('action','/symfony/web/app_dev.php/image/delete');
+           });
+           $('#new').click(function(){
+               // language=JQuery-CSS
+               $('form#main').attr('action','/symfony/web/app_dev.php/image/main');
+           });
+        </script>
+        <script src="{{ asset('js/gallery.js') }}"></script>
+    {% endblock %}
+    <footer class="footer">
+        <div class="container">
+            <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        </div>
+    </footer>
+</body>
+</html>

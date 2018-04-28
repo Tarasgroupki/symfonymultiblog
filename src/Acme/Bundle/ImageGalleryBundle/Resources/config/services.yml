@@ -1,0 +1,4 @@
+services:
+#    acme_image_gallery.example:
+#        class: Acme\Bundle\ImageGalleryBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

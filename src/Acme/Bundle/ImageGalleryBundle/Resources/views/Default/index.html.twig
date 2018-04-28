@@ -1,0 +1,29 @@
+{% extends 'gallery.html.twig' %}
+
+{% block body %}
+    <h1>Images</h1>
+
+    <h1>Images list</h1>
+
+    <form v-on:click="counters()" id="main" v-cloak method="post">
+
+        <h1>Картинки</h1>
+
+        <ul>
+            <!-- Цикл проходит по массиву услуг, присваивает обработчик для клика, и устанавливает или удаляет класс "active" -->
+            <li v-for="service in services" v-on:click="toggleActive(service)" v-bind:class="{ 'active': service.active}">
+                 <img :src="service.img_url" alt="no image" style="height:150px;width:200px" />
+            </li>
+        </ul>
+        <div v-for="(item,index) in id_arr()">
+            <input type="hidden" name="id[]" :value="item" />
+        </div>
+        <input type="hidden" name="product_id" value="{{ id }}" />
+            <button class="btn btn-info pull-right">Send</button>
+    </form>
+    <button id="delete">Delete</button>
+    <button  id="new">Main</button>
+        {{ form_start(form) }}
+        <button class="btn btn-info pull-right">Add</button>
+        {{ form_end(form) }}
+{% endblock %}

@@ -5,6 +5,10 @@ cat_index:
     path:     /{id}/{slug}
     defaults: {_controller: BlogBundle:Default:index}
     requirements: {'id': '\d+','slug': '[\w\-]+'}
+paginate_index:
+    path:     /{page}
+    defaults: {_controller: BlogBundle:Default:index}
+    requirements: {'page' : '\d+'}
 hello:
     path:     /default/hello
     defaults: { _controller: BlogBundle:Default:hello }

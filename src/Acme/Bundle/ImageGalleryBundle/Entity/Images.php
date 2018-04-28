@@ -1,0 +1,198 @@
+<?php
+
+namespace Acme\Bundle\ImageGalleryBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+/**
+ * Images
+ *
+ * @ORM\Table(name="images")
+ * @ORM\Entity(repositoryClass="Acme\Bundle\ImageGalleryBundle\Repository\ImagesRepository")
+ */
+class Images
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+    /**
+     *@ORM\Column(type="integer")
+     */
+    private $productId;
+    /**
+     *@ORM\Column(type="string")
+     */
+    private $imgUrl;
+    /**
+     *@ORM\Column(type="text")
+     */
+    private $description;
+    /**
+     * @Assert\File(
+     *     maxSize = "2024k",
+     *     mimeTypes = {"image/jpeg", "image/png"},
+     *     mimeTypesMessage = "Please upload a valid PDF"
+     * )
+     */
+    private $imags;
+    /**
+     *@ORM\Column(type="date")
+     */
+    private $created;
+    /**
+     *@ORM\OneToOne(targetEntity="Main_Img", mappedBy="images")
+     **/
+    private $mainImg;
+
+    public function __construct()
+    {
+        $this->created = new \DateTime();
+      //  $this->main_img = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set productId
+     *
+     * @param integer $productId
+     *
+     * @return Images
+     */
+    public function setProductId($productId)
+    {
+        $this->productId = $productId;
+
+        return $this;
+    }
+
+    /**
+     * Get productId
+     *
+     * @return integer
+     */
+    public function getProductId()
+    {
+        return $this->productId;
+    }
+
+    /**
+     * Set imgUrl
+     *
+     * @param string $imgUrl
+     *
+     * @return Images
+     */
+    public function setImgUrl($imgUrl)
+    {
+        $this->imgUrl = $imgUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get imgUrl
+     *
+     * @return string
+     */
+    public function getImgUrl()
+    {
+        return $this->imgUrl;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Images
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+   public function setImags( UploadedFile $imags )
+    {
+        return $this->imags = $imags;
+    }
+
+    public function getImags()
+    {
+        return $this->imags;
+    }
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     *
+     * @return Images
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set mainImg
+     *
+     * @param \Acme\Bundle\ImageGalleryBundle\Entity\Main_Img $mainImg
+     *
+     * @return Images
+     */
+    public function setMainImg(\Acme\Bundle\ImageGalleryBundle\Entity\Main_Img $mainImg = null)
+    {
+        $this->mainImg = $mainImg;
+
+        return $this;
+    }
+
+    /**
+     * Get mainImg
+     *
+     * @return \Acme\Bundle\ImageGalleryBundle\Entity\Main_Img
+     */
+    public function getMainImg()
+    {
+        return $this->mainImg;
+    }
+}

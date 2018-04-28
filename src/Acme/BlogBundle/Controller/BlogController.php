@@ -115,15 +115,20 @@ $product_id = $product_id[1] + 1;
         'SELECT p FROM BlogBundle:Blog p WHERE p.productId = :productId'
         )->setParameter('productId',$blog->getProductId());
         $blogs = $query->getResult();
+        /*foreach ($blogs as $blog) {
+            $blogs[$blog->getLocale()] = $blog;
+        }*/
 		$blog = new Blog();
 		foreach($blogs as $key => $blog1){
+		    $key = $blog1->getLocale();
         $blog1->setLocale($blog1->getLocale());
 		$title = new Title();
         $title->setTitle($blog1->getTitle());
 		$title->setBody($blog1->getBody());
 		$title->setId($blog1->getId());
+
         $blog->getTitles()->add($title);
-	  }
+            }//print_r($blogs);die;
 		$editForm = $this->createForm('Acme\BlogBundle\Form\BlogType', $blog);
         $editForm->handleRequest($request);
 

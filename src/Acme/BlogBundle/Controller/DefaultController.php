@@ -18,40 +18,59 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Security\Core\Authentication\Token\RememberMeToken;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class DefaultController extends Controller
 {
-    public function indexAction(Request $request)
+    public function indexAction(Request $request,$page = 1)
     {
 		$locale = $request->getLocale();
 		$em = $this->getDoctrine()->getManager();
-		$images = $em->getRepository('AcmeImageGalleryBundle:Main_Img')->findAll();
+
 		//var_dump($images[0]->getImages()->getImgUrl());die;
-		foreach($images as $key => $image):
-            $img[$image->getProductId()] = $image->getImages()->getImgUrl();
-        endforeach;
+
       // print_r($img);die;
         $categories = $em->getRepository('BlogBundle:Category')->findByLocale($locale);
 		//$menuItems = $this->getMenuItems($categories);
-		//echo '<pre>'.print_r($menuItems,true).'</pre>';die;	
+		//echo '<pre>'.print_r($menuItems,true).'</pre>';die;
 		$languages = $this->get('my_widget')->getLanguages();
 		$avatar = $this->get('my_widget')->getProfile();
 		if(!$request->get('id'))
 		{
-		    $blogs = $em->getRepository('BlogBundle:Blog')->findByLocale($locale);
+		    $images = $em->getRepository('AcmeImageGalleryBundle:Main_Img')->findAll();
+		   // $blogs = $em->getRepository('BlogBundle:Blog')->findByLocale($locale);
+            $query = $em->createQueryBuilder('p')->select('a')->from('BlogBundle:Blog', 'a')
+                ->join('AcmeImageGalleryBundle:Images','im','with','im.productId = a.productId')->where('a.locale = :locale')
+                ->setParameter('locale',$locale)->getQuery();
+            $blogs = $this->paginate($query,$page);
+            //print_r($blogs->getImages());die;
+
         }
 		else
 		{
 			$cts = $em->getRepository('BlogBundle:Category')->findByParentId($request->get('id'));
-			$blogs = $em->getRepository('BlogBundle:Blog')->findBy(['locale' => $locale , 'categoryId' => $request->get('id')]);
-			foreach($cts as $key => $cats):
+			//$blogs = $em->getRepository('BlogBundle:Blog')->findBy(['locale' => $locale , 'categoryId' => $request->get('id')]);
+			$query = $em->createQueryBuilder('p')->select('a')->from('BlogBundle:Blog','a')->where('a.locale = :locale')
+                ->andwhere('a.categoryId = :cat_id')->setParameter('locale',$locale)->setParameter('cat_id',$request->get('id'))->getQuery();
+			$blogs = $this->paginate($query,$page);
+			$maxPages = 5;
+			$thisPage = $page;
+            foreach($cts as $key => $cats):
 		    $blog_edit = $em->getRepository('BlogBundle:Blog')->findBy(['locale' => $locale , 'categoryId' => $cats->getCategoryId()]);
 			if(!empty($blogs) && !empty($blog_edit)):
 			$blogs[count($blogs) - 1 + $key] = $blog_edit[$key];
 			endif;
 			endforeach;
+			foreach($blogs as $key => $value):
+                $ids[$key] = $value->getProductId();
+            endforeach;
+			$images = $em->getRepository('AcmeImageGalleryBundle:Main_Img')->findByProductId($ids);
 		}
-		return $this->render('BlogBundle:Default:index.html.twig',array('blogs' => $blogs,'languages' => $languages,'categories' => $categories,'avatar' => $avatar,'images' => $img)
+        $maxPages = ceil($blogs->count() / 5);
+		foreach($images as $key => $image):
+        $img[$image->getProductId()] = $image->getImages()->getImgUrl();
+    endforeach;
+		return $this->render('BlogBundle:Default:index.html.twig',array('blogs' => $blogs,'languages' => $languages,'categories' => $categories,'avatar' => $avatar,'images' => $img,'maxPages' => $maxPages,'thisPage' => $page)
 		);
     }
 	public function numberAction($id)
@@ -194,6 +213,34 @@ foreach ($categoryTree[null] as $root) {
     }
 }
         return $categoryTree;
+    }
+    /**
+     * Paginator Helper
+     *
+     * Pass through a query object, current page & limit
+     * the offset is calculated from the page and limit
+     * returns an `Paginator` instance, which you can call the following on:
+     *
+     *     $paginator->getIterator()->count() # Total fetched (ie: `5` posts)
+     *     $paginator->count() # Count of ALL posts (ie: `20` posts)
+     *     $paginator->getIterator() # ArrayIterator
+     *
+     * @param Doctrine\ORM\Query $dql   DQL Query Object
+     * @param integer            $page  Current page (defaults to 1)
+     * @param integer            $limit The total number per page (defaults to 5)
+     *
+     * @return \Doctrine\ORM\Tools\Pagination\Paginator
+     */
+    public function paginate($dql, $page = 1, $limit = 5)
+    {
+        $paginator = new Paginator($dql);
+
+        $paginator->getQuery()
+            ->setFirstResult($limit * ($page - 1)) // Offset
+            ->setMaxResults($limit)
+        ->getResult(); // Limit
+
+        return $paginator;
     }
 	/*public function _catsIds($cats,$cat_id)
 	{

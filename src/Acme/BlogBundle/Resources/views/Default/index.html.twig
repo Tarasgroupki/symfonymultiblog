@@ -26,17 +26,39 @@
         </thead>
         <tbody>
         {% for blog in blogs %}
+
         {% if images[blog.productId] is defined %}
-            <tr>
+        <tr>
                 <td><img style="width:450px;height:250px;" src="{{ images[blog.productId] }}"/></td>
             </tr>
         {% endif %}
-
                 <td><a href="{{ path('default_show', { 'id': blog.id ,'slug': blog.slug}) }}">{{ blog.productId }}</a></td>
                 <td>{{ blog.title }}</td>
                 <td>{{ blog.body }}</td>
             </tr>
         {% endfor %}
+        <tr>
+        {% if maxPages > 1 %}
+            <ul class="pagination pagination-sm">
+                {# `«` arrow  #}
+                <li {{ thisPage == 1 ? 'class="disabled"' }}>
+                    <a href="{{ path('paginate_index', {page: thisPage-1 < 1 ? 1 : thisPage-1}) }}">«</a>
+                </li>
+
+                {# Render each page number #}
+                {% for i in 1..maxPages %}
+                    <li {{ thisPage == i ? 'class="active"' }}>
+                        <a href="{{ path('paginate_index', {page: i}) }}">{{ i }}</a>
+                    </li>
+                {% endfor %}
+
+                {# `»` arrow #}
+                <li {{ thisPage == maxPages ? 'class="disabled"' }}>
+                    <a href="{{ path('paginate_index', {page: thisPage+1 <= maxPages ? thisPage+1 : thisPage}) }}">»</a>
+                </li>
+            </ul>
+        </tr>
+        {% endif %}
         </tbody>
     </table>
 {% endblock %}
