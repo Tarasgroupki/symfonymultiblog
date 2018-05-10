@@ -1,0 +1,20 @@
+{% extends "::admin.html.twig"%}
+
+{% block title %}ChatBundle:index{% endblock %}
+
+{% block body %}
+    <h1>Check Users</h1>
+    {% for user in users %}
+        <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('chat_index', { 'id': user.id }) }}">Check User</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% endfor %}
+{% endblock %}

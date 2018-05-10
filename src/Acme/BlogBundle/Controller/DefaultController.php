@@ -97,7 +97,9 @@ class DefaultController extends Controller
 		{
 			$roles[$key] = $value->getItemName();
 		}
+		if(isset($roles)):
 		$this->getUser()->setRoles($roles);
+		endif;
 		$user = $this->getUser();
 		$token = new UsernamePasswordToken($user, $user->getPassword(), 'main', $user->getRoles());
         $key = $this->getParameter('secret'); // your security key from parameters.yml

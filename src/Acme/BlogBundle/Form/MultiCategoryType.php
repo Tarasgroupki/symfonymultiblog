@@ -6,14 +6,14 @@ use Acme\BlogBundle\Entity\MultiCategory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class MultiCategoryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('cat_name')->add('description_cat');
+        $builder->add('cat_name')->add('description_cat',TextareaType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

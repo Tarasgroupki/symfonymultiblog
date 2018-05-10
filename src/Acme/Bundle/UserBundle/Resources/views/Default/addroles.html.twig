@@ -3,17 +3,18 @@
 {% block title %}Acme\Bundle\UserBundle:login{% endblock %}
 
 {% block body %}
-<form action="{{ path('acme_user_addroles',{'id':1}) }}" method="POST">
+<form action="{{ path('acme_user_addroles',{'id':id}) }}" method="POST">
 {% for key,role in addrole %}
             <tr>
-                {% if checked_roles[key].ItemName is defined %}
-				<td><input type="checkbox" id="subscribeNews" name="subscribe[{{ key }}]" value={{ role.ItemName }} checked='checked'>{{ role.ItemName }}</td>
+                {% if checked_roles[role.ItemName] is defined %}
+				<td><input type="checkbox" id="subscribeNews" name="subscribe[{{ role.ItemName }}]" value={{ role.ItemName }} checked='checked'>{{ role.ItemName }}</td>
 				{% else %}
-				<td><input type="checkbox" id="subscribeNews" name="subscribe[{{ key }}]" value={{ role.ItemName }}>{{ role.ItemName }}</td>
+					<td><input type="checkbox" id="subscribeNews" name="subscribe[{{ role.ItemName }}]" value={{ role.ItemName }}>{{ role.ItemName }}</td>
 				{% endif %}
             </tr>
 			<br />
         {% endfor %}
+	<input type="hidden" name="check" value="true" />
 		<button class="btn btn-info pull-right" name="submit" type="submit">Change</button>
 </form>
 {% endblock %}

@@ -1,0 +1,46 @@
+{% extends "::admin.html.twig"%}
+
+{% block body %}
+<div align="left">
+    <img style="height:200px; width:300px;" src="{{ fromAvatar }}">
+    <div><h3>{{ from.username }}</h3>
+    {% for  message in messages %}
+    {% if from.id == message.fromId %}
+    {% if message.IsDeleteFrom == null %}
+    <div>
+        {{ message.message }}<a href="{{ path('chat_delete', {'id': message.id}) }}">×</a>
+    </div>
+        {% else %}
+        <div>
+        {{ "This message was deleted!" }}
+        </div>
+        {% endif %}
+        {% endif %}
+    {% endfor %}</div>
+</div>
+<div align="right">
+    <img style="height:200px; width:300px;" src="{{ whomAvatar }}">
+    <div><h3>{{ whom.username }}</h3>
+    {% for  message in messages %}
+        {% if from.id == message.whomId %}
+            {% if message.IsDeleteFrom == null %}
+            <div>
+                {{ message.message }}
+                <a href="{{ path('chat_delete', {'id': message.id}) }}">×</a>
+            </div>
+            {% else %}
+                <div>
+                    {{ "This message was deleted!" }}
+                </div>
+            {% endif %}
+        {% endif %}
+    {% endfor %}</div>
+</div>
+{{ form_start(form) }}
+<h1>{{ from.username }}</h1>
+<div class="form-group">
+    {{ form_row(form.message) }}
+</div>
+<button class="btn btn-info pull-right" type="submit">Send</button>
+{{ form_end(form) }}
+{% endblock %}

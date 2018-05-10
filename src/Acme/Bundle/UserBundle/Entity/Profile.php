@@ -22,7 +22,7 @@ class Profile
 	 * @ORM\Id
      * @ORM\Column(type="integer")
      */
-	 private $user_id;
+	 private $userId;
 	 /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
@@ -64,7 +64,7 @@ class Profile
      */
     public function setUserId($userId)
     {
-        $this->user_id = $userId;
+        $this->userId = $userId;
 
         return $this;
     }
@@ -76,7 +76,7 @@ class Profile
      */
     public function getUserId()
     {
-        return $this->user_id;
+        return $this->userId;
     }
 
     /**

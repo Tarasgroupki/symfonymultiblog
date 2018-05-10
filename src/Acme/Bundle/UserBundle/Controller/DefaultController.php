@@ -74,9 +74,12 @@ class DefaultController extends Controller
 
             // ... do any other work - like sending them an email, etc
             // maybe set a "flash" success message for the user
-
+            $qb = $this->getDoctrine()->getEntityManager();
+            $user_id = $qb->createQuery("SELECT MAX(b.id) FROM AcmeUserBundle:User b")->getResult()[0];
+            $qb->getConnection()->insert('roles',array('item_name' => 'ROLE_USER','user_id' => $user_id[1],'created' => date('Y-m-d')));
             return $this->redirectToRoute('acme_user_homepage');
         }
+
 
         return $this->render(
             'AcmeUserBundle:Default:register.html.twig',
@@ -139,31 +142,28 @@ class DefaultController extends Controller
 	public function AddRolesAction(Request $request,$id)
 	{
     $em = $this->getDoctrine()->getManager();	
-	$addrole = $em->getRepository('AcmeUserBundle:Roles_Item')->findAll();	
-	$checked_roles = $em->getRepository('AcmeUserBundle:Roles')->findByUserId($id);	
-	if ($request->get('subscribe')) {//print_r($request->get('subscribe'));die;
-		$qb = $this->getDoctrine()->getEntityManager()->getConnection();   
-	    //print_r($addrole);
+	$addrole = $em->getRepository('AcmeUserBundle:Roles_Item')->findAll();
+	$checked_roles = $em->getRepository('AcmeUserBundle:Roles')->findByUserId($id);
+	foreach($checked_roles as $key => $role):
+        $check_roles[$role->getItemName()] = $role->getItemName();
+    endforeach;
+	if ($request->get('check')) {
+        $qb = $this->getDoctrine()->getEntityManager()->getConnection();
 		$croles = $request->get('subscribe');
-		//foreach($request->get('subscribe') as $key => $subscribe):
 		foreach($addrole as $key => $value):
-		echo $key;
-		if(!isset($checked_roles[$key]) || isset($croles[$key])):
-		echo $croles[$key];
-		//if(((isset($checked_roles[$key])) ? $checked_roles[$key]->getItemName() : null) != $subscribe):
-		if(!isset($checked_roles[$key])):
-		$query = $qb->insert('roles',array('id' => '','item_name' => $croles[$key],'user_id' => $id,'created' => date('Y-m-d')));
-	    endif;
-		elseif(isset($checked_roles[$key])): echo $checked_roles[$key]->getItemName();//die;
+		if(!isset($check_roles[$value->getItemName()]) && isset($croles[$value->getItemName()])):
+		$query = $qb->insert('roles',array('id' => '','item_name' => $value->getItemName(),'user_id' => $id,'created' => date('Y-m-d')));
+		elseif(isset($check_roles[$value->getItemName()]) && !isset($croles[$value->getItemName()])):
 		$em->createQueryBuilder()->delete('AcmeUserBundle:Roles','b')
 		->where('b.item_name = :item_name')
-		->setParameter('item_name',$checked_roles[$key]->getItemName())
+		->setParameter('item_name',$check_roles[$value->getItemName()])
 		->getQuery()->execute();
 		endif;
 		endforeach;
-	}
-	$checked_roles = $em->getRepository('AcmeUserBundle:Roles')->findByUserId($id);
-	return $this->render('AcmeUserBundle:Default:addroles.html.twig',['addrole' => $addrole,'checked_roles' => ($checked_roles) ? $checked_roles : null]);		
+        return $this->redirect($this->generateUrl('acme_user_addroles',['id' => $id]));
+	}//print_r($addrole);die;
+	//$checked_roles = $em->getRepository('AcmeUserBundle:Roles')->findByUserId($id);
+	return $this->render('AcmeUserBundle:Default:addroles.html.twig',['addrole' => $addrole,'checked_roles' => isset($check_roles) ? $check_roles : null,'id' => $id]);
 	}
 	/*private function getRoles()
 	  {

@@ -22,6 +22,7 @@ class AppKernel extends Kernel
 			//new Ornicar\ApcBundle\OrnicarApcBundle(),
             new Acme\Bundle\UserBundle\AcmeUserBundle(),
             new Acme\Bundle\ImageGalleryBundle\AcmeImageGalleryBundle(),
+            new ChatBundle\ChatBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

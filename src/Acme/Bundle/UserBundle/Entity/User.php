@@ -45,17 +45,7 @@ class User implements UserInterface
     private $isActive;
 	
 	private $roles = [];
-	//private $profile;
-   /**
-      @var \Doctrine\Common\Collections\Collection
-     */
-//	protected $comments;
-	
-	 /**
-	  @var \Doctrine\Common\Collections\Collection
-      @ORM\OneToMany(targetEntity="Roles", mappedBy="user") 
-    */
-    //private $userRoles;
+
 
     public function __construct()
     {

@@ -28,6 +28,9 @@
 	    <li><a href="{{ path('index') }}">{{ 'translate.link1'|trans }}</a></li>
 	    <li><a href="{{ path('hello') }}">{{ 'translate.link2'|trans }}</a></li> 
 		<li><a href="{{ path('number', { 'id': 1 }) }}">{{ 'translate.link3'|trans }}</a></li>
+        {% if app.user %}
+		<li><a href="{{ path('chat') }}">{{ 'translate.link4'|trans }}</a></li>
+		{% endif %}
 	</ul>
 	<div>
 	{% for lang in languages %}

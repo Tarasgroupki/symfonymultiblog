@@ -28,7 +28,7 @@ class Widget
 		$token = $this->token_storage->getToken()->getUser();
 		if(!is_string($token)){
 		$avatar = $this->em->getRepository('AcmeUserBundle:Profile')->find($token->getId());
-		    return $avatar->getAvatar();
+		    return isset($avatar) ? $avatar->getAvatar() : null;
 		}
 		else
 		{

@@ -8,7 +8,8 @@
             "AppBundle\\": "src/AppBundle",
 			"Acme\\BlogBundle\\": "src/Acme/BlogBundle",
 			"Acme\\Bundle\\UserBundle\\": "src/Acme/Bundle/UserBundle",
-            "Acme\\Bundle\\ImageGalleryBundle\\": "src/Acme/Bundle/ImageGalleryBundle"
+            "Acme\\Bundle\\ImageGalleryBundle\\": "src/Acme/Bundle/ImageGalleryBundle",
+            "ChatBundle\\":"src/ChatBundle"
 			
         },
         "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
@@ -21,6 +22,7 @@
         "php": ">=5.5.9",
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/orm": "^2.5",
+        "facebook/graph-sdk": "^5.6",
         "friendsofsymfony/comment-bundle": "^2.0",
         "incenteev/composer-parameter-handler": "^2.0",
         "mikeevstropov/sortable-tree-bundle": "^1.1",

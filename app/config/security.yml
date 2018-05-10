@@ -42,6 +42,7 @@ security:
         - { path: ^/admin/blog/index, roles: ROLE_ADMIN }
         - { path: ^/admin/blog/new, roles: ROLE_ADMIN }
         - { path: ^/edit, roles: ROLE_ADMIN }
+        - { path: ^/chat, roles: ROLE_USER }
         - { path: ^/admin/language/index, roles: ROLE_ADMIN }
         - { path: ^/admin/language/new, roles: ROLE_ADMIN }
         - { path: ^/admin/category/index, roles: ROLE_ADMIN }
